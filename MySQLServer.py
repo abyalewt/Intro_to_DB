@@ -1,12 +1,18 @@
-import mysql.connector
-from mysql.connector import errorcode
+try:
+    import mysql.connector
+    from mysql.connector import errorcode
+except ImportError:
+    raise SystemExit(
+        "Missing required module 'mysql-connector-python'. Install it with:\n"
+        "    pip install mysql-connector-python"
+    )
 
 # Configuration for connecting to the MySQL server
-# !!! IMPORTANT: Replace 'your_username' and 'your_password' with your actual MySQL credentials.
+# Using the credentials you provided.
 config = {
-    "user": "your_username",
-    "password": "your_password",
-    "host": "localhost",  # Use your server host, often 'localhost' or '127.0.0.1'
+    "user": "root",
+    "password": "qwertyuiop",
+    "host": "localhost",
 }
 
 DATABASE_NAME = "alx_book_store"
@@ -25,7 +31,6 @@ def create_database():
         db_cursor = db_connection.cursor()
 
         # 2. Execute the query to create the database if it doesn't exist
-        # Using IF NOT EXISTS prevents failure if the database already exists.
         create_db_query = f"CREATE DATABASE IF NOT EXISTS {DATABASE_NAME}"
         db_cursor.execute(create_db_query)
 
@@ -37,7 +42,6 @@ def create_database():
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Error: Access denied. Check your username and password.")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            # This is highly unlikely since we aren't using a DB initially
             print("Error: Database does not exist.")
         else:
             print(f"Failed to connect or create database: {err}")
@@ -47,7 +51,6 @@ def create_database():
         if db_connection and db_connection.is_connected():
             db_cursor.close()
             db_connection.close()
-            # print("MySQL connection closed.") # Optional confirmation
 
 
 if __name__ == "__main__":
