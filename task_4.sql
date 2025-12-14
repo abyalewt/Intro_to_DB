@@ -1,5 +1,14 @@
--- Explicitly select the database
-USE ALX_BOOK_STORE;
-
--- Then, execute the required command
-SHOW CREATE TABLE BOOKS;
+-- Select the necessary columns from the INFORMATION_SCHEMA.COLUMNS table
+SELECT
+    COLUMN_NAME,
+    COLUMN_TYPE,
+    IS_NULLABLE,
+    COLUMN_KEY,
+    COLUMN_DEFAULT,
+    EXTRA
+FROM
+    INFORMATION_SCHEMA.COLUMNS
+WHERE
+    TABLE_SCHEMA = 'alx_book_store'
+AND
+    TABLE_NAME = 'Books';
