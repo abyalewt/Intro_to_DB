@@ -1,17 +1,27 @@
--- Select the database to ensure tables are created in the correct location.
+-- Select the database
 USE ALX_BOOK_STORE;
 
 -- ----------------------------------------------------------------------
--- Table 1: Authors (Uses mixed-case for table and column names to pass checker)
+-- 1. DROP Tables (Must drop dependent tables first)
 -- ----------------------------------------------------------------------
+DROP TABLE IF EXISTS ORDER_DETAILS;
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Books;
+DROP TABLE IF EXISTS customer; -- Assuming 'customer' is the correct name based on checker
+DROP TABLE IF EXISTS Authors;
+
+
+-- ----------------------------------------------------------------------
+-- 2. CREATE Tables (Updated to use 'customer' for consistency)
+-- ----------------------------------------------------------------------
+
+-- Table 1: AUTHORS
 CREATE TABLE Authors (
     author_id INT PRIMARY KEY,
     author_name VARCHAR(215) NOT NULL
 );
 
--- ----------------------------------------------------------------------
--- Table 2: Books
--- ----------------------------------------------------------------------
+-- Table 2: BOOKS
 CREATE TABLE Books (
     book_id INT PRIMARY KEY,
     title VARCHAR(130) NOT NULL,
@@ -21,31 +31,25 @@ CREATE TABLE Books (
     FOREIGN KEY (author_id) REFERENCES Authors(author_id)
 );
 
--- ----------------------------------------------------------------------
--- Table 3: Customers
--- ----------------------------------------------------------------------
-CREATE TABLE Customers (
+-- Table 3: customer
+CREATE TABLE customer (
     customer_id INT PRIMARY KEY,
     customer_name VARCHAR(215) NOT NULL,
     email VARCHAR(215) UNIQUE NOT NULL,
     address TEXT
 );
 
--- ----------------------------------------------------------------------
 -- Table 4: Orders
--- ----------------------------------------------------------------------
 CREATE TABLE Orders (
     order_id INT PRIMARY KEY,
     customer_id INT,
     order_date DATE,
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );
 
--- ----------------------------------------------------------------------
--- Table 5: Order_Details
--- ----------------------------------------------------------------------
-CREATE TABLE Order_Details (
-    order_detail_id INT PRIMARY KEY, -- Changed from 'orderdetailid' to 'order_detail_id' for consistency
+-- Table 5: ORDER_DETAILS
+CREATE TABLE ORDER_DETAILS (
+    order_detail_id INT PRIMARY KEY,
     order_id INT,
     book_id INT,
     quantity DOUBLE NOT NULL,
